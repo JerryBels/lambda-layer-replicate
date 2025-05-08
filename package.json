@@ -1,0 +1,26 @@
+{
+  "name": "lambda-layer-replicate",
+  "version": "1.1.0",
+  "repository": "git@github.com:JerryBels/lambda-layer-replicate.git",
+  "license": "Apache License 2.0",
+  "module": "lambda-layer-replicate",
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.4.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-node-externals": "^3.0.0",
+    "zip-webpack-plugin": "^4.0.1"
+  },
+  "dependencies": {
+    "replicate": "^1.0.1"
+  },
+  "scripts": {
+    "postinstall": "npm run install-arm && npm run build",
+    "install-arm": "npm install --prefix /tmp/replicate --arch=arm64 --platform=linux replicate && cp -R /tmp/replicate/node_modules/replicate node_modules/",
+    "build": "rm -rf dist && mkdir -p dist/nodejs && cp -R /tmp/replicate/node_modules/. dist/nodejs/node_modules/ && (cd dist && zip -r replicate-layer.zip nodejs)"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "Jeremy Belolo <jerrybels@gmail.com>"
+}
